@@ -162,8 +162,7 @@ async function connectToWhatsApp() {
       const phoneNumber = env.PHONE_NUMBER.replace(/[^0-9]/g, '');
       logger.info(`📞 Solicitando código de pareamento para: ${phoneNumber}`);
 
-      setTimeout(async () => {
-        try {
+      try {
           const code = await sock.requestPairingCode(phoneNumber);
           logger.info('═══════════════════════════════════════════════════');
           logger.info('📱 SEU CÓDIGO DE PAREAMENTO 📱');
@@ -173,7 +172,6 @@ async function connectToWhatsApp() {
         } catch (error) {
           logger.error('❌ Erro ao solicitar código de pareamento:', error.message);
         }
-      }, 3000);
     }
 
     // Event handlers com melhor integração
@@ -196,7 +194,7 @@ async function connectToWhatsApp() {
         lastConnectionTime = null;
         isReconnecting = false;
 
-        const shouldReconnect = lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut;
+        const shouldReconnect = true; // Always attempt to reconnect, even if logged out
         const reason = new Boom(lastDisconnect?.error)?.output?.statusCode;
 
         logger.warn(`🔌 Conexão fechada. Motivo: ${reason}, Reconectar: ${shouldReconnect}`);
@@ -211,11 +209,7 @@ async function connectToWhatsApp() {
               connectToWhatsApp();
             }
           }, 10000);
-        } else if (!shouldReconnect) {
-          logger.error('❌ Sessão encerrada. Reinicie a aplicação para reconectar.');
-          connectionAttempts = 0;
-          eventHandler.savePersistedData();
-        } else {
+        } else if (connectionAttempts >= 5) {
           logger.error('❌ Máximo de tentativas de reconexão atingido.');
           eventHandler.savePersistedData();
         }

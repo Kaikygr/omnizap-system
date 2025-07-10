@@ -19,20 +19,20 @@ const { isUserAdmin, isBotAdmin, isGroupJid, getGroupMetadata, getBotJid, cleanJ
 
 // Mapeamento de comandos para seus módulos e configurações
 const commandMap = {
-  ban: { module: 'adminCommands', needsAdmin: true, groupOnly: true },
-  add: { module: 'adminCommands', needsAdmin: true, groupOnly: true },
-  promote: { module: 'adminCommands', needsAdmin: true, groupOnly: true },
-  demote: { module: 'adminCommands', needsAdmin: true, groupOnly: true },
-  setname: { module: 'adminCommands', needsAdmin: true, groupOnly: true },
-  setdesc: { module: 'adminCommands', needsAdmin: true, groupOnly: true },
-  group: { module: 'adminCommands', needsAdmin: true, groupOnly: true },
-  link: { module: 'adminCommands', needsAdmin: true, groupOnly: true },
-  ephemeral: { module: 'adminCommands', needsAdmin: true, groupOnly: true },
-  temp: { module: 'adminCommands', needsAdmin: true, groupOnly: true }, // Alias para ephemeral
-  addmode: { module: 'adminCommands', needsAdmin: true, groupOnly: true },
-  groupinfo: { module: 'adminCommands', groupOnly: true },
-  infogrupo: { module: 'adminCommands', groupOnly: true }, // Alias para groupinfo
-  banlist: { module: 'adminCommands', groupOnly: true },
+  ban: { module: 'adminModules/adminCommands', needsAdmin: true, groupOnly: true },
+  add: { module: 'adminModules/adminCommands', needsAdmin: true, groupOnly: true },
+  promote: { module: 'adminModules/adminCommands', needsAdmin: true, groupOnly: true },
+  demote: { module: 'adminModules/adminCommands', needsAdmin: true, groupOnly: true },
+  setname: { module: 'adminModules/adminCommands', needsAdmin: true, groupOnly: true },
+  setdesc: { module: 'adminModules/adminCommands', needsAdmin: true, groupOnly: true },
+  group: { module: 'adminModules/adminCommands', needsAdmin: true, groupOnly: true },
+  link: { module: 'adminModules/adminCommands', needsAdmin: true, groupOnly: true },
+  ephemeral: { module: 'adminModules/adminCommands', needsAdmin: true, groupOnly: true },
+  temp: { module: 'adminModules/adminCommands', needsAdmin: true, groupOnly: true }, // Alias para ephemeral
+  addmode: { module: 'adminModules/adminCommands', needsAdmin: true, groupOnly: true },
+  groupinfo: { module: 'adminModules/adminCommands', groupOnly: true },
+  infogrupo: { module: 'adminModules/adminCommands', groupOnly: true }, // Alias para groupinfo
+  banlist: { module: 'adminModules/adminCommands', groupOnly: true },
   sticker: { module: 'stickerCommand' },
   s: { module: 'stickerCommand' }, // Alias para sticker
   menu: { module: 'menuCommand' },

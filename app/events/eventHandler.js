@@ -196,7 +196,16 @@ class EventHandler {
     for (const [type, filePath] of Object.entries(dataFiles)) {
       try {
         const fileContent = await fs.readFile(filePath, 'utf8');
-        const data = JSON.parse(fileContent);
+        let data = {};
+        if (fileContent.trim() !== '') {
+          try {
+            data = JSON.parse(fileContent);
+          } catch (jsonError) {
+            logger.error(`❌ Erro ao analisar JSON de ${path.basename(filePath)}:`, jsonError.message);
+            logger.warn(`⚠️ O arquivo ${path.basename(filePath)} pode estar corrompido. Tentando continuar com dados vazios.`);
+            // Opcional: Você pode querer fazer backup do arquivo corrompido aqui
+          }
+        }
         const cache = this.getCacheByType(type);
 
         if (cache && data) {
