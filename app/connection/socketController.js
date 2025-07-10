@@ -163,15 +163,15 @@ async function connectToWhatsApp() {
       logger.info(`📞 Solicitando código de pareamento para: ${phoneNumber}`);
 
       try {
-          const code = await sock.requestPairingCode(phoneNumber);
-          logger.info('═══════════════════════════════════════════════════');
-          logger.info('📱 SEU CÓDIGO DE PAREAMENTO 📱');
-          logger.info(`\n          > ${code.match(/.{1,4}/g).join('-')} <\n`);
-          logger.info('💡 WhatsApp → Dispositivos vinculados → Vincular com número');
-          logger.info('═══════════════════════════════════════════════════');
-        } catch (error) {
-          logger.error('❌ Erro ao solicitar código de pareamento:', error.message);
-        }
+        const code = await sock.requestPairingCode(phoneNumber);
+        logger.info('═══════════════════════════════════════════════════');
+        logger.info('📱 SEU CÓDIGO DE PAREAMENTO 📱');
+        logger.info(`\n          > ${code.match(/.{1,4}/g).join('-')} <\n`);
+        logger.info('💡 WhatsApp → Dispositivos vinculados → Vincular com número');
+        logger.info('═══════════════════════════════════════════════════');
+      } catch (error) {
+        logger.error('❌ Erro ao solicitar código de pareamento:', error.message);
+      }
     }
 
     // Event handlers com melhor integração
@@ -495,7 +495,6 @@ function getActiveSocket() {
 async function forceDisconnect() {
   if (activeSocket) {
     try {
-      await activeSocket.logout();
       activeSocket = null;
       lastConnectionTime = null;
       isReconnecting = false;

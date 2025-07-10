@@ -40,7 +40,7 @@ const processAddCommand = async (omniZapClient, messageInfo, senderJid, groupJid
       };
     }
 
-    const botIsAdmin = await isBotAdmin(omniZapClient, groupJid);
+    const botIsAdmin = await isBotAdmin(groupJid);
     if (!botIsAdmin) {
       return {
         success: false,
@@ -48,7 +48,7 @@ const processAddCommand = async (omniZapClient, messageInfo, senderJid, groupJid
       };
     }
 
-    const senderIsAdmin = await isUserAdmin(omniZapClient, groupJid, senderJid);
+    const senderIsAdmin = await isUserAdmin(groupJid, senderJid);
     if (!senderIsAdmin) {
       return {
         success: false,
@@ -146,7 +146,7 @@ const processPromoteCommand = async (omniZapClient, messageInfo, senderJid, grou
       };
     }
 
-    const botIsAdmin = await isBotAdmin(omniZapClient, groupJid);
+    const botIsAdmin = await isBotAdmin(groupJid);
     if (!botIsAdmin) {
       return {
         success: false,
@@ -154,7 +154,7 @@ const processPromoteCommand = async (omniZapClient, messageInfo, senderJid, grou
       };
     }
 
-    const senderIsAdmin = await isUserAdmin(omniZapClient, groupJid, senderJid);
+    const senderIsAdmin = await isUserAdmin(groupJid, senderJid);
     if (!senderIsAdmin) {
       return {
         success: false,
@@ -284,7 +284,7 @@ const processDemoteCommand = async (omniZapClient, messageInfo, senderJid, group
       };
     }
 
-    const botIsAdmin = await isBotAdmin(omniZapClient, groupJid);
+    const botIsAdmin = await isBotAdmin(groupJid);
     if (!botIsAdmin) {
       return {
         success: false,
@@ -292,7 +292,7 @@ const processDemoteCommand = async (omniZapClient, messageInfo, senderJid, group
       };
     }
 
-    const senderIsAdmin = await isUserAdmin(omniZapClient, groupJid, senderJid);
+    const senderIsAdmin = await isUserAdmin(groupJid, senderJid);
     if (!senderIsAdmin) {
       return {
         success: false,
@@ -433,7 +433,7 @@ const processSetNameCommand = async (omniZapClient, messageInfo, senderJid, grou
       };
     }
 
-    const botIsAdmin = await isBotAdmin(omniZapClient, groupJid);
+    const botIsAdmin = await isBotAdmin(groupJid);
     if (!botIsAdmin) {
       return {
         success: false,
@@ -441,7 +441,7 @@ const processSetNameCommand = async (omniZapClient, messageInfo, senderJid, grou
       };
     }
 
-    const senderIsAdmin = await isUserAdmin(omniZapClient, groupJid, senderJid);
+    const senderIsAdmin = await isUserAdmin(groupJid, senderJid);
     if (!senderIsAdmin) {
       return {
         success: false,
@@ -527,7 +527,7 @@ const processSetDescCommand = async (omniZapClient, messageInfo, senderJid, grou
       };
     }
 
-    const botIsAdmin = await isBotAdmin(omniZapClient, groupJid);
+    const botIsAdmin = await isBotAdmin(groupJid);
     if (!botIsAdmin) {
       return {
         success: false,
@@ -535,7 +535,7 @@ const processSetDescCommand = async (omniZapClient, messageInfo, senderJid, grou
       };
     }
 
-    const senderIsAdmin = await isUserAdmin(omniZapClient, groupJid, senderJid);
+    const senderIsAdmin = await isUserAdmin(groupJid, senderJid);
     if (!senderIsAdmin) {
       return {
         success: false,
@@ -621,7 +621,7 @@ const processGroupSettingCommand = async (omniZapClient, messageInfo, senderJid,
       };
     }
 
-    const botIsAdmin = await isBotAdmin(omniZapClient, groupJid);
+    const botIsAdmin = await isBotAdmin(groupJid);
     if (!botIsAdmin) {
       return {
         success: false,
@@ -629,7 +629,7 @@ const processGroupSettingCommand = async (omniZapClient, messageInfo, senderJid,
       };
     }
 
-    const senderIsAdmin = await isUserAdmin(omniZapClient, groupJid, senderJid);
+    const senderIsAdmin = await isUserAdmin(groupJid, senderJid);
     if (!senderIsAdmin) {
       return {
         success: false,
@@ -738,14 +738,14 @@ const processLinkCommand = async (omniZapClient, messageInfo, senderJid, groupJi
         message: formatErrorMessage('Comando só disponível em grupos', 'Este comando só pode ser utilizado dentro de grupos.', null),
       };
     }
-    const botIsAdmin = await isBotAdmin(omniZapClient, groupJid);
+    const botIsAdmin = await isBotAdmin(groupJid);
     if (!botIsAdmin) {
       return {
         success: false,
         message: formatErrorMessage('Permissão negada', 'O bot precisa ser administrador do grupo para executar esta ação.', null),
       };
     }
-    const senderIsAdmin = await isUserAdmin(omniZapClient, groupJid, senderJid);
+    const senderIsAdmin = await isUserAdmin(groupJid, senderJid);
     if (!senderIsAdmin) {
       return {
         success: false,
@@ -819,7 +819,7 @@ const processEphemeralCommand = async (omniZapClient, messageInfo, senderJid, gr
       };
     }
 
-    const botIsAdmin = await isBotAdmin(omniZapClient, groupJid);
+    const botIsAdmin = await isBotAdmin(groupJid);
     if (!botIsAdmin) {
       return {
         success: false,
@@ -827,7 +827,7 @@ const processEphemeralCommand = async (omniZapClient, messageInfo, senderJid, gr
       };
     }
 
-    const senderIsAdmin = await isUserAdmin(omniZapClient, groupJid, senderJid);
+    const senderIsAdmin = await isUserAdmin(groupJid, senderJid);
     if (!senderIsAdmin) {
       return {
         success: false,
@@ -943,7 +943,7 @@ const processAddModeCommand = async (omniZapClient, messageInfo, senderJid, grou
       };
     }
 
-    const botIsAdmin = await isBotAdmin(omniZapClient, groupJid);
+    const botIsAdmin = await isBotAdmin(groupJid);
     if (!botIsAdmin) {
       return {
         success: false,
@@ -951,7 +951,7 @@ const processAddModeCommand = async (omniZapClient, messageInfo, senderJid, grou
       };
     }
 
-    const senderIsAdmin = await isUserAdmin(omniZapClient, groupJid, senderJid);
+    const senderIsAdmin = await isUserAdmin(groupJid, senderJid);
     if (!senderIsAdmin) {
       return {
         success: false,
@@ -1077,7 +1077,7 @@ const processGroupInfoCommand = async (omniZapClient, messageInfo, senderJid, gr
 
     let inviteLink = '';
     try {
-      if (await isBotAdmin(omniZapClient, groupJid)) {
+      if (await isBotAdmin(groupJid)) {
         const code = await omniZapClient.groupInviteCode(groupJid);
         inviteLink = `\n🔗 *Link de convite:* https://chat.whatsapp.com/${code}`;
       }
@@ -1132,7 +1132,7 @@ const processBanCommand = async (omniZapClient, messageInfo, senderJid, groupJid
       };
     }
 
-    const botIsAdmin = await isBotAdmin(omniZapClient, groupJid);
+    const botIsAdmin = await isBotAdmin(groupJid);
     if (!botIsAdmin) {
       return {
         success: false,
@@ -1140,7 +1140,7 @@ const processBanCommand = async (omniZapClient, messageInfo, senderJid, groupJid
       };
     }
 
-    const senderIsAdmin = await isUserAdmin(omniZapClient, groupJid, senderJid);
+    const senderIsAdmin = await isUserAdmin(groupJid, senderJid);
     if (!senderIsAdmin) {
       return {
         success: false,
@@ -1188,7 +1188,7 @@ const processBanCommand = async (omniZapClient, messageInfo, senderJid, groupJid
       }
     }
 
-    const targetIsAdmin = await isUserAdmin(omniZapClient, groupJid, targetUserJid);
+    const targetIsAdmin = await isUserAdmin(groupJid, targetUserJid);
     if (targetIsAdmin) {
       return {
         success: false,
@@ -1264,7 +1264,7 @@ const processBanListCommand = async (omniZapClient, messageInfo, senderJid, grou
 
   try {
     if (groupJid) {
-      const senderIsAdmin = await isUserAdmin(omniZapClient, groupJid, senderJid);
+      const senderIsAdmin = await isUserAdmin(groupJid, senderJid);
       if (!senderIsAdmin) {
         return {
           success: false,

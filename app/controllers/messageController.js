@@ -27,15 +27,15 @@ const commandMap = {
   setdesc: { module: 'adminModules/adminCommands', needsAdmin: true, groupOnly: true },
   group: { module: 'adminModules/adminCommands', needsAdmin: true, groupOnly: true },
   link: { module: 'adminModules/adminCommands', needsAdmin: true, groupOnly: true },
-  ephemeral: { module: 'adminModules/adminCommands', needsAdmin: true, groupOnly: true },
-  temp: { module: 'adminModules/adminCommands', needsAdmin: true, groupOnly: true }, // Alias para ephemeral
-  addmode: { module: 'adminModules/adminCommands', needsAdmin: true, groupOnly: true },
-  groupinfo: { module: 'adminModules/adminCommands', groupOnly: true },
-  infogrupo: { module: 'adminModules/adminCommands', groupOnly: true }, // Alias para groupinfo
-  banlist: { module: 'adminModules/adminCommands', groupOnly: true },
-  sticker: { module: 'stickerCommand' },
-  s: { module: 'stickerCommand' }, // Alias para sticker
-  menu: { module: 'menuCommand' },
+  ephemeral: { module: 'adminModules/adminCommands', handler: 'processEphemeralCommand', needsAdmin: true, groupOnly: true },
+  temp: { module: 'adminModules/adminCommands', handler: 'processEphemeralCommand', needsAdmin: true, groupOnly: true }, // Alias para ephemeral
+  addmode: { module: 'adminModules/adminCommands', handler: 'processAddModeCommand', needsAdmin: true, groupOnly: true },
+  groupinfo: { module: 'adminModules/adminCommands', handler: 'processGroupInfoCommand', groupOnly: true },
+  infogrupo: { module: 'adminModules/adminCommands', handler: 'processGroupInfoCommand', groupOnly: true }, // Alias para groupinfo
+  banlist: { module: 'adminModules/adminCommands', handler: 'processBanListCommand', groupOnly: true },
+  sticker: { module: 'stickerModules/stickerCommand', handler: 'processSticker' },
+  s: { module: 'stickerModules/stickerCommand', handler: 'processSticker' }, // Alias para sticker
+  menu: { module: 'menuCommand', handler: 'processMenuCommand' },
 };
 
 /**
@@ -92,7 +92,7 @@ const processCommand = async (command, context) => {
 
     // Carrega o módulo de comando dinamicamente
     const commandModule = require(`../commandModules/${commandConfig.module}`);
-    const handlerName = `process${command.charAt(0).toUpperCase() + command.slice(1)}Command`;
+    const handlerName = commandConfig.handler || `process${command.charAt(0).toUpperCase() + command.slice(1)}Command`;
 
     // Encontra o handler correto, considerando aliases
     const commandHandler = commandModule[handlerName] || Object.values(commandModule).find(fn => typeof fn === 'function');
