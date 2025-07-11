@@ -16,7 +16,7 @@ const { exec } = require('child_process');
 const execProm = util.promisify(exec);
 const logger = require('../../utils/logger/loggerModule');
 const { getFileBuffer } = require('../../utils/baileys/mediaHelper');
-const { addStickerToPack, getUserId, getUserPreferences, updateUserPreferences } = require('./stickerPackManager');
+const { addStickerToPack, getUserId, getUserPreferences, updateUserPreferences, listUserPacks } = require('./stickerPackManager');
 const { COMMAND_PREFIX, STICKER_CONSTANTS } = require('../../utils/constants');
 const { formatErrorMessage, formatSuccessMessage } = require('../../utils/messageUtils');
 
@@ -425,7 +425,13 @@ async function processSticker(baileysClient, message, sender, from, text, option
   }
 }
 
+
+
+
+
 module.exports = {
   processSticker,
   extractMediaDetails,
+  processStickerSendCommand,
 };
+
