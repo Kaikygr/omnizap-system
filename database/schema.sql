@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS raw_messages (
 );
 
 -- Tabela para armazenar informações de grupos
-CREATE TABLE IF NOT EXISTS groups (
+CREATE TABLE IF NOT EXISTS `groups` (
     id VARCHAR(255) PRIMARY KEY,
     name VARCHAR(255),
     creation BIGINT,
@@ -58,13 +58,13 @@ CREATE TABLE IF NOT EXISTS groups (
 );
 
 -- Tabela para armazenar participantes de grupos
-CREATE TABLE IF NOT EXISTS group_participants (
+CREATE TABLE IF NOT EXISTS `group_participants` (
     group_id VARCHAR(255),
     participant_jid VARCHAR(255),
     is_admin BOOLEAN,
     PRIMARY KEY (group_id, participant_jid),
-    FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE,
-    FOREIGN KEY (participant_jid) REFERENCES contacts(id) ON DELETE CASCADE
+    FOREIGN KEY (group_id) REFERENCES `groups`(id) ON DELETE CASCADE,
+    FOREIGN KEY (participant_jid) REFERENCES `contacts`(id) ON DELETE CASCADE
 );
 
 -- Tabela para armazenar a lista de bloqueio
@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS presences (
 );
 
 -- Tabela para armazenar informações de chamadas
-CREATE TABLE IF NOT EXISTS calls (
+CREATE TABLE IF NOT EXISTS `calls` (
     id VARCHAR(255) PRIMARY KEY,
     fromJid VARCHAR(255),
     toJid VARCHAR(255),
@@ -145,10 +145,10 @@ CREATE TABLE IF NOT EXISTS newsletter_participants (
 );
 
 -- Tabela para armazenar configurações de grupos
-CREATE TABLE IF NOT EXISTS group_configs (
+CREATE TABLE IF NOT EXISTS `group_configs` (
     group_id VARCHAR(255) PRIMARY KEY,
     welcome_media VARCHAR(255),
     farewell_media VARCHAR(255),
     config_data JSON,
-    FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE
+    FOREIGN KEY (group_id) REFERENCES `groups`(id) ON DELETE CASCADE
 );

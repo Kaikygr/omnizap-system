@@ -1,29 +1,33 @@
 const mysql = require('mysql2/promise');
-const fs = require('fs').promises; // Import fs.promises for async file operations
-const path = require('path'); // Import path module
+const fs = require('fs').promises;
+const path = require('path');
 require('dotenv').config();
 
-// Crie um pool de conexões para o MySQL
-const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
-});
+let pool;
 
-// Função para testar a conexão com o banco de dados
-async function testConnection() {
+// Função para criar o banco de dados se ele não existir
+async function createDatabaseIfNotExists() {
+  const { DB_HOST, DB_USER, DB_PASSWORD, DB_NAME } = process.env;
+  let connection;
   try {
-    const connection = await pool.getConnection();
-    console.log('Conectado com sucesso ao banco de dados MySQL.');
-    connection.release();
-    return true; // Indica sucesso
+    // Conecta ao servidor MySQL sem especificar um banco de dados
+    connection = await mysql.createConnection({
+      host: DB_HOST,
+      user: DB_USER,
+      password: DB_PASSWORD,
+    });
+    // Cria o banco de dados se ele não existir
+    await connection.query(`CREATE DATABASE IF NOT EXISTS 
+${DB_NAME}
+`);
+    console.log(`Banco de dados '${DB_NAME}' verificado/criado com sucesso.`);
   } catch (error) {
-    console.error('Erro ao conectar ao banco de dados MySQL:', error);
-    return false; // Indica falha
+    console.error('Erro ao criar o banco de dados:', error);
+    throw error; // Relança o erro para ser tratado pelo chamador
+  } finally {
+    if (connection) {
+      await connection.end(); // Fecha a conexão
+    }
   }
 }
 
@@ -32,7 +36,6 @@ async function applySchema() {
   const schemaPath = path.resolve(__dirname, 'schema.sql');
   try {
     const schemaSql = await fs.readFile(schemaPath, 'utf8');
-    // Divide as instruções SQL por ponto e vírgula, filtra strings vazias
     const statements = schemaSql.split(';').map(s => s.trim()).filter(s => s.length > 0);
 
     const connection = await pool.getConnection();
@@ -46,22 +49,44 @@ async function applySchema() {
     }
   } catch (error) {
     console.error('Erro ao aplicar o esquema do banco de dados:', error);
-    // Dependendo da gravidade, você pode querer relançar ou sair do processo
-    process.exit(1); // Sai se a aplicação do esquema falhar criticamente
+    process.exit(1);
   }
 }
 
 // Inicializa a conexão com o banco de dados e aplica o esquema
 async function initializeDatabase() {
-  const isConnected = await testConnection();
-  if (isConnected) {
+  try {
+    await createDatabaseIfNotExists();
+
+    // Agora que o DB existe, cria o pool de conexões para ele
+    pool = mysql.createPool({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      waitForConnections: true,
+      connectionLimit: 10,
+      queueLimit: 0,
+    });
+
+    // Testa a conexão com o pool
+    const connection = await pool.getConnection();
+    console.log('Conectado com sucesso ao banco de dados MySQL.');
+    connection.release();
+
+    // Aplica o schema
     await applySchema();
-  } else {
-    console.error('Não foi possível inicializar o banco de dados devido a falha na conexão.');
-    process.exit(1); // Sai se a conexão falhar
+  } catch (error) {
+    console.error('Não foi possível inicializar o banco de dados:', error);
+    process.exit(1);
   }
 }
 
-initializeDatabase(); // Chama a função de inicialização
+function getPool() {
+  if (!pool) {
+    throw new Error('Pool de conexões não inicializado. Chame initializeDatabase primeiro.');
+  }
+  return pool;
+}
 
-module.exports = pool;
+module.exports = { initializeDatabase, getPool };

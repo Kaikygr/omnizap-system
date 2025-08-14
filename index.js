@@ -1,10 +1,12 @@
 require('dotenv').config();
 const logger = require('./app/utils/logger/loggerModule');
 const { connectToWhatsApp, getActiveSocket } = require('./app/connection/socketController');
+const { initializeDatabase } = require('./database/mysql');
 
 async function startApp() {
   try {
     logger.info('Iniciando OmniZap System...');
+    await initializeDatabase();
     await connectToWhatsApp();
     logger.info('OmniZap System iniciado com sucesso.');
     if (process.send) {
